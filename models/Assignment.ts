@@ -7,13 +7,36 @@ export interface Assignment extends Document {
   status: "success" | "failed";
   reason?: string;
 }
-type AssignmentMetrics = {
+export interface AssignmentMetrics extends Document {
   //This will tell our system performance metrics
   totalAssigned: number;
   successRate: number;
   averageTime: number;
   failureReasons: { reason: string; count: number }[];
-};
+}
+
+const AssignmentMetricsSchema = new Schema<AssignmentMetrics>({
+  totalAssigned: {
+    type: Number,
+    required: true,
+  },
+  successRate: {
+    type: Number,
+    required: true,
+  },
+  averageTime: {
+    type: Number,
+    required: true,
+  },
+  failureReasons: [
+    {
+      reason: { type: String },
+      count: {
+        type: Number,
+      },
+    },
+  ],
+});
 
 const AssignmentSchema = new Schema<Assignment>({
   orderId: { type: Schema.Types.ObjectId, ref: "Order", required: true }, // Reference to Order
@@ -26,3 +49,10 @@ const AssignmentSchema = new Schema<Assignment>({
   },
   reason: { type: String, default: null }, // Reason for failure (optional)
 });
+export const AssignmentModel =
+  (mongoose.models.Assignment as mongoose.Model<Assignment>) ||
+  mongoose.model("Assignment", AssignmentSchema);
+
+export const AssignmentMetricsModel =
+  (mongoose.models.AssignmentMetrics as mongoose.Model<AssignmentMetrics>) ||
+  mongoose.model("AssignmentMetrics", AssignmentMetricsSchema);

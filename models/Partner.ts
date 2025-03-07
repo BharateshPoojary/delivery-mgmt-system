@@ -61,5 +61,5 @@ const PartnerSchema: Schema<DeliveryPartner> = new Schema({
 });
 
 export const PartnerModel =
-  (mongoose.models.Partner as mongoose.Model<DeliveryPartner>) ||
-  mongoose.model("Partner", PartnerSchema);
+  (mongoose.models.DeliveryPartner as mongoose.Model<DeliveryPartner>) ||
+  mongoose.model("DeliveryPartner", PartnerSchema);
