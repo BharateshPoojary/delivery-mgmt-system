@@ -49,25 +49,19 @@ export async function POST(request: Request) {
     email,
     phone,
     status,
-    currentLoad,
+
     areas,
     shift,
-    metrics,
   }: {
     name: string;
     email: string;
     phone: string;
     status: "active" | "inactive";
-    currentLoad: number;
+
     areas: string[];
     shift: {
       start: string;
       end: string;
-    };
-    metrics: {
-      rating: number;
-      completedOrders: number;
-      cancelledOrders: number;
     };
   } = await request.json();
   await dbConnection();
@@ -77,10 +71,9 @@ export async function POST(request: Request) {
       email,
       phone,
       status,
-      currentLoad,
+
       areas,
       shift,
-      metrics,
     }).save();
     return Response.json(
       {
