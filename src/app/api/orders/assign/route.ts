@@ -63,6 +63,7 @@ export async function POST(request: Request) {
 
       // make the order status to assigned
       const updateOrderStatus = await OrderModel.findByIdAndUpdate(
+        //If the partner agrees to deliver  then pnly
         { _id: createOrder._id },
         { $set: { status: "assigned" } },
         { $new: true }
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
           {}, //This will include filtering field using which the collection will be sorted if no filtering  criteria present then it will consider any document which is first doc in this case as this collection will have single doc which will be updated each time
           { $inc: { totalAssigned: 1 } },
           { new: true, upsert: true } //upsert:true will create the document if no doc present in collection
-          //YOU HAVE TO CALCULATE successRate ,averageTime, and also need to determine failureReasons
+          //YOU HAVE TO CALCULATE successRate ,averageTime, and also need to determine failureReasons when partner cancels to deliver that order
         );
       if (
         performingAssignment &&
